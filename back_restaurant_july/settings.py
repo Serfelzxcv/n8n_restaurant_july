@@ -93,8 +93,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'july_restaurant_db',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
+        'USER': 'july_user',
+        'PASSWORD': '42?9(.OPqsZJ&KQD',
         'HOST': 'localhost',
         'PORT': '5432',
     }
