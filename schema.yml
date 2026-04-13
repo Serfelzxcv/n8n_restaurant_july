@@ -1,0 +1,1056 @@
+openapi: 3.0.3
+info:
+  title: Restaurant API
+  version: 1.0.0
+  description: Documentación de mi backend
+paths:
+  /api/schema/:
+    get:
+      operationId: api_schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - api
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /orders/:
+    get:
+      operationId: orders_list
+      tags:
+      - orders
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pedido'
+          description: ''
+    post:
+      operationId: orders_create
+      tags:
+      - orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+            examples:
+              CrearPedido:
+                value:
+                  numero_persona: 4
+                  items:
+                  - plato_id: 1
+                    cantidad: 2
+                    detalle: sin cebolla
+                  - plato_id: 3
+                    cantidad: 1
+                    detalle: bien caliente
+                summary: Crear pedido
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+        required: true
+      security:
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+          description: ''
+  /orders/{id}/:
+    get:
+      operationId: orders_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - orders
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+          description: ''
+    put:
+      operationId: orders_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+            examples:
+              CrearPedido:
+                value:
+                  numero_persona: 4
+                  items:
+                  - plato_id: 1
+                    cantidad: 2
+                    detalle: sin cebolla
+                  - plato_id: 3
+                    cantidad: 1
+                    detalle: bien caliente
+                summary: Crear pedido
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+        required: true
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+          description: ''
+    patch:
+      operationId: orders_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPedido'
+            examples:
+              CrearPedido:
+                value:
+                  numero_persona: 4
+                  items:
+                  - plato_id: 1
+                    cantidad: 2
+                    detalle: sin cebolla
+                  - plato_id: 3
+                    cantidad: 1
+                    detalle: bien caliente
+                summary: Crear pedido
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPedido'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPedido'
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+          description: ''
+    delete:
+      operationId: orders_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - orders
+      security:
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /products/:
+    get:
+      operationId: products_list_all
+      tags:
+      - products
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Plato'
+          description: ''
+    post:
+      operationId: products_create
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plato'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Plato'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Plato'
+        required: true
+      security:
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plato'
+          description: ''
+  /products/{categoria}/:
+    get:
+      operationId: products_list_by_categoria
+      parameters:
+      - in: path
+        name: categoria
+        schema:
+          type: string
+        required: true
+      tags:
+      - products
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Plato'
+          description: ''
+  /products/{id}/:
+    get:
+      operationId: products_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plato'
+          description: ''
+    put:
+      operationId: products_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plato'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Plato'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Plato'
+        required: true
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plato'
+          description: ''
+    patch:
+      operationId: products_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPlato'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPlato'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPlato'
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plato'
+          description: ''
+    delete:
+      operationId: products_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /products/cartas/:
+    get:
+      operationId: products_cartas_list
+      tags:
+      - products
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CartaDia'
+          description: ''
+    post:
+      operationId: products_cartas_create
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartaDia'
+            examples:
+              CartaDelDiaConPlatos:
+                value:
+                  fecha: '2026-04-07'
+                  items:
+                  - plato_id: 1
+                    cantidad: 1
+                  - plato_id: 3
+                    cantidad: 2
+                summary: Carta del dia con platos
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CartaDia'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CartaDia'
+        required: true
+      security:
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartaDia'
+          description: ''
+  /products/cartas/{carta_pk}/items/:
+    get:
+      operationId: products_cartas_items_list
+      parameters:
+      - in: path
+        name: carta_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ItemMenu'
+          description: ''
+    post:
+      operationId: products_cartas_items_create
+      parameters:
+      - in: path
+        name: carta_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemMenu'
+            examples:
+              CrearCartaDelDia:
+                value:
+                  fecha: '2026-04-07'
+                  items:
+                  - plato_id: 1
+                    cantidad: 1
+                  - plato_id: 3
+                    cantidad: 2
+                summary: Crear carta del dia
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemMenu'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemMenu'
+        required: true
+      security:
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemMenu'
+          description: ''
+  /products/cartas/{carta_pk}/items/{id}/:
+    get:
+      operationId: products_cartas_items_retrieve
+      parameters:
+      - in: path
+        name: carta_pk
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemMenu'
+          description: ''
+    put:
+      operationId: products_cartas_items_update
+      parameters:
+      - in: path
+        name: carta_pk
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemMenu'
+            examples:
+              CrearCartaDelDia:
+                value:
+                  fecha: '2026-04-07'
+                  items:
+                  - plato_id: 1
+                    cantidad: 1
+                  - plato_id: 3
+                    cantidad: 2
+                summary: Crear carta del dia
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemMenu'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemMenu'
+        required: true
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemMenu'
+          description: ''
+    patch:
+      operationId: products_cartas_items_partial_update
+      parameters:
+      - in: path
+        name: carta_pk
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedItemMenu'
+            examples:
+              CrearCartaDelDia:
+                value:
+                  fecha: '2026-04-07'
+                  items:
+                  - plato_id: 1
+                    cantidad: 1
+                  - plato_id: 3
+                    cantidad: 2
+                summary: Crear carta del dia
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedItemMenu'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedItemMenu'
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemMenu'
+          description: ''
+    delete:
+      operationId: products_cartas_items_destroy
+      parameters:
+      - in: path
+        name: carta_pk
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /products/cartas/{id}/:
+    get:
+      operationId: products_cartas_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartaDia'
+          description: ''
+    put:
+      operationId: products_cartas_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartaDia'
+            examples:
+              CartaDelDiaConPlatos:
+                value:
+                  fecha: '2026-04-07'
+                  items:
+                  - plato_id: 1
+                    cantidad: 1
+                  - plato_id: 3
+                    cantidad: 2
+                summary: Carta del dia con platos
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CartaDia'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CartaDia'
+        required: true
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartaDia'
+          description: ''
+    patch:
+      operationId: products_cartas_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCartaDia'
+            examples:
+              CartaDelDiaConPlatos:
+                value:
+                  fecha: '2026-04-07'
+                  items:
+                  - plato_id: 1
+                    cantidad: 1
+                  - plato_id: 3
+                    cantidad: 2
+                summary: Carta del dia con platos
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCartaDia'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCartaDia'
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartaDia'
+          description: ''
+    delete:
+      operationId: products_cartas_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - {}
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    CartaDia:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        fecha:
+          type: string
+          format: date
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemMenu'
+      required:
+      - fecha
+      - id
+      - items
+    CategoriaEnum:
+      enum:
+      - entrada
+      - fondo
+      - extra
+      type: string
+      description: |-
+        * `entrada` - Entrada
+        * `fondo` - Fondo
+        * `extra` - Plato Extra
+    ItemMenu:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        carta:
+          type: integer
+          readOnly: true
+        plato_id:
+          type: integer
+        cantidad:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        precio:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+          readOnly: true
+        titulo_seccion:
+          type: string
+          readOnly: true
+      required:
+      - carta
+      - id
+      - plato_id
+      - precio
+      - titulo_seccion
+    ItemPedido:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        plato_id:
+          type: integer
+        cantidad:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        detalle:
+          type: string
+          nullable: true
+          maxLength: 500
+        subtotal:
+          type: number
+          format: double
+          readOnly: true
+      required:
+      - id
+      - plato_id
+      - subtotal
+    PatchedCartaDia:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        fecha:
+          type: string
+          format: date
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemMenu'
+    PatchedItemMenu:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        carta:
+          type: integer
+          readOnly: true
+        plato_id:
+          type: integer
+        cantidad:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        precio:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+          readOnly: true
+        titulo_seccion:
+          type: string
+          readOnly: true
+    PatchedPedido:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        numero_persona:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        fecha:
+          type: string
+          format: date-time
+          readOnly: true
+        total:
+          type: number
+          format: double
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemPedido'
+    PatchedPlato:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 200
+        descripcion:
+          type: string
+        precio:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        categoria:
+          $ref: '#/components/schemas/CategoriaEnum'
+    Pedido:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        numero_persona:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        fecha:
+          type: string
+          format: date-time
+          readOnly: true
+        total:
+          type: number
+          format: double
+          readOnly: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemPedido'
+      required:
+      - fecha
+      - id
+      - items
+      - numero_persona
+      - total
+    Plato:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 200
+        descripcion:
+          type: string
+        precio:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        categoria:
+          $ref: '#/components/schemas/CategoriaEnum'
+      required:
+      - categoria
+      - id
+      - nombre
+      - precio
